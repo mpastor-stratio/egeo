@@ -1,6 +1,6 @@
 # Changelog
 
-## 11.5.1 (upcoming)
+## 11.5.1 (July 25, 2018)
 
 **Fixed bugs:**
 
