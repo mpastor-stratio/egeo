@@ -1,6 +1,6 @@
 # Changelog
 
-## 12.0.0 (upcoming)
+## 12.0.0 (August 17, 2018)
 
 **New features:**
 
