@@ -12,7 +12,7 @@ import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Http } from '@angular/http';
 import { By } from '@angular/platform-browser';
-import { VirtualScrollModule } from 'angular2-virtual-scroll';
+import { VirtualScrollerModule } from 'ngx-virtual-scroller';
 import {
    times as _times
 } from 'lodash';
@@ -39,6 +39,7 @@ let config: StTwoListSelectionConfig = {
    allElementsListTitle: 'All',
    allElementsListSubtitle: 'All subtitle',
    allElementsSearchPlaceholder: 'Search all',
+   fetchingDataText: 'Fetching more data',
    selectedElementsListTitle: 'Selected',
    selectedElementsListSubtitle: 'Selected subtitle',
    selectedElementsSearchPlaceholder: 'Search selected',
@@ -58,7 +59,7 @@ function generateData(numData: number): StTwoListSelectionElement[] {
 describe('StTwoListSelectionComponent', () => {
    beforeEach(async(() => {
       TestBed.configureTestingModule({
-         imports: [StSearchModule, PipesModule, VirtualScrollModule, StCheckboxModule],
+         imports: [StSearchModule, PipesModule, VirtualScrollerModule, StCheckboxModule],
          declarations: [StTwoListSelectionViewComponent, ListSelectionComponent, ListItemComponent, ListScrollComponent],
          schemas: [NO_ERRORS_SCHEMA]
       })
@@ -87,6 +88,7 @@ describe('StTwoListSelectionComponent', () => {
          expect(comp.orderPlaceholder).toEqual(config.orderPlaceholder);
          expect(comp.allQaTag).toContain(qaTag);
          expect(comp.selectedQaTag).toContain(qaTag);
+         expect(comp.fetchingDataText).toContain(config.fetchingDataText);
       });
 
       it('Should init default', () => {
@@ -101,6 +103,7 @@ describe('StTwoListSelectionComponent', () => {
          expect(comp.allQaTag).toContain(qaTag);
          expect(comp.selectedQaTag).toContain(qaTag);
          expect(comp.orderPlaceholder).toEqual('');
+         expect(comp.fetchingDataText).toEqual('');
       });
    });
 });

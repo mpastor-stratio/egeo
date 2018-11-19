@@ -10,7 +10,7 @@
  */
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { VirtualScrollModule } from 'angular2-virtual-scroll';
+import { VirtualScrollerModule } from 'ngx-virtual-scroller';
 
 // Components
 import { ListItemComponent } from './list-item/list-item.component';
@@ -25,8 +25,10 @@ import { StSearchModule } from '../st-search/st-search.module';
 import { StSelectModule } from '../st-select/st-select.module';
 import { StCheckboxModule } from '../st-checkbox/st-checkbox.module';
 
+import { StSpinnerModule } from '../st-spinner/st-spinner.module';
+
 @NgModule({
-   imports: [CommonModule, StSearchModule, PipesModule, VirtualScrollModule, StSelectModule, StCheckboxModule],
+   imports: [CommonModule, StSearchModule, PipesModule, VirtualScrollerModule, StSelectModule, StCheckboxModule, StSpinnerModule],
    declarations: [StTwoListSelectionViewComponent, StTwoListSelectionComponent, ListSelectionComponent, ListItemComponent, ListScrollComponent],
    exports: [StTwoListSelectionComponent, StTwoListSelectionViewComponent]
 })

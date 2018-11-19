@@ -19,6 +19,7 @@ import { StSelectComponent } from './st-select';
 import { StSelectModule } from './st-select.module';
 import { StDropdownMenuModule } from '../st-dropdown-menu/st-dropdown-menu.module';
 import { StDropdownMenuComponent } from '../st-dropdown-menu/st-dropdown-menu.component';
+import { StClickOutside } from '../directives/st-click-outside/st-click-outside.directive';
 
 
 const simpleItems: StDropDownMenuItem[] = [
@@ -56,7 +57,7 @@ describe('StSelectComponent', () => {
    beforeEach(async(() => {
       TestBed.configureTestingModule({
          imports: [StDropdownMenuModule],
-         declarations: [StSelectComponent],
+         declarations: [StSelectComponent, StClickOutside],
          schemas: [NO_ERRORS_SCHEMA]
       })
       // remove this block when the issue #12313 of Angular is fixed
@@ -439,7 +440,7 @@ describe('StSelectComponent', () => {
          expect(fixture.nativeElement.querySelector('.st-form-control-reset-button')).not.toBeNull();
          expect(fixture.debugElement.query(By.css('.st-form-control-reset-button')).styles.opacity).toEqual('1');
 
-         input.click();
+         fixture.nativeElement.click();
          fixture.detectChanges();
 
          expect(fixture.debugElement.query(By.css('.st-form-control-reset-button')).styles.opacity).toEqual('0');
@@ -454,6 +455,8 @@ describe('StSelectComponent', () => {
          (items[4].nativeElement as HTMLElement).click();  // select the default option
          fixture.detectChanges();
 
+         input.click();
+         fixture.detectChanges();
          expect(fixture.nativeElement.querySelector('.st-form-control-reset-button')).toBeNull();
       });
 
@@ -547,7 +550,8 @@ describe('StSelectComponent', () => {
          TestBed.configureTestingModule({
             imports: [FormsModule, ReactiveFormsModule, StSelectModule],
             declarations: [StSelectTestReactiveComponent]
-         }).compileComponents();  // compile template and css
+         })
+            .compileComponents();  // compile template and css
       }));
 
       beforeEach(() => {
@@ -560,7 +564,6 @@ describe('StSelectComponent', () => {
       afterEach(() => {
          fixture.destroy();
       });
-
 
       it('Should filter list on search', () => {
          comp.search = true;
@@ -575,17 +578,16 @@ describe('StSelectComponent', () => {
          expect(comp.selected).toEqual(<StDropDownMenuItem>compSelect.filteredOptions[0]);
 
          const label: DebugElement = fixture.debugElement.query(By.css('label'));
-         comp.search = true;
          (label.nativeElement as HTMLLabelElement).click();
          fixture.detectChanges();
-         expect(compSelect.searchInput.value).toEqual('example 4');
+         expect(compSelect.selectedValue).toEqual('example 4');
 
          comp.selected = undefined;
          fixture.detectChanges();
          input.click();
          (label.nativeElement as HTMLLabelElement).click();
          fixture.detectChanges();
-         expect(compSelect.searchInput.value).toEqual('');
+         expect(compSelect.selectedValue).toEqual('');
       });
 
       it('Should be possible to set disabled', () => {

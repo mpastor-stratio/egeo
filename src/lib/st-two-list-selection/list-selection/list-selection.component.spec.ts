@@ -12,7 +12,7 @@ import { DebugElement, SimpleChange, SimpleChanges, NO_ERRORS_SCHEMA } from '@an
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Http } from '@angular/http';
 import { By } from '@angular/platform-browser';
-import { VirtualScrollModule } from 'angular2-virtual-scroll';
+import { VirtualScrollerModule } from 'ngx-virtual-scroller';
 import {
    times as _times,
    cloneDeep as _cloneDeep
@@ -52,7 +52,7 @@ let list: StTwoListSelectionElement[] = generateData(10);
 describe('StTwoListSelectionComponent', () => {
    beforeEach(async(() => {
       TestBed.configureTestingModule({
-         imports: [StSearchModule, VirtualScrollModule, StCheckboxModule],
+         imports: [StSearchModule, VirtualScrollerModule, StCheckboxModule],
          declarations: [ListSelectionComponent, ListItemComponent, ListScrollComponent],
          schemas: [NO_ERRORS_SCHEMA]
       })
@@ -72,6 +72,7 @@ describe('StTwoListSelectionComponent', () => {
          fixture.detectChanges();
          expect(comp.searchQaTag).toEqual(qaTag + '-search');
          expect(comp.listQaTag).toEqual(qaTag + '-list');
+         expect(comp.listCheckAllQaTag).toEqual(qaTag + '-all-checkbox');
          expect(comp.hasOrder).toBeFalsy();
       });
    });

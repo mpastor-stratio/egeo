@@ -17,7 +17,6 @@ import {
    EventEmitter,
    forwardRef,
    HostBinding,
-   HostListener,
    Injector,
    Input,
    OnDestroy,
@@ -53,7 +52,7 @@ export class StSelectComponent implements AfterViewInit, ControlValueAccessor, O
    @Input() selected: StDropDownMenuItem = undefined;
    @Input() default: any;
    @Input() itemsBeforeScroll: number = 8;
-   @Input() search: boolean;
+   @Input() search: boolean = false;
 
    @Output() expand: EventEmitter<boolean> = new EventEmitter<boolean>();
    @Output() select: EventEmitter<any> = new EventEmitter<any>();
@@ -65,7 +64,6 @@ export class StSelectComponent implements AfterViewInit, ControlValueAccessor, O
    expandedMenu: boolean = false;
    searchInput: FormControl = new FormControl();
    filteredOptions: StDropDownMenuItem[] | StDropDownMenuGroup[];
-   searchMode: boolean = false;
 
    onChange: (_: any) => void;
 
@@ -80,8 +78,8 @@ export class StSelectComponent implements AfterViewInit, ControlValueAccessor, O
    }
 
    constructor(private _selectElement: ElementRef,
-      private _injector: Injector,
-      private _cd: ChangeDetectorRef) {
+               private _injector: Injector,
+               private _cd: ChangeDetectorRef) {
    }
 
    // TODO: MOVE THIS TO FORM-BASE
@@ -156,16 +154,9 @@ export class StSelectComponent implements AfterViewInit, ControlValueAccessor, O
     ****** Control value accessor && validate methods ******
     */
 
-   clickSearch(event: Event): void {
-      event.stopPropagation();
-      this.expandedMenu = true;
-      this.expand.emit(this.expandedMenu); // Notify expand change
-   }
-
    getOptions(): void {
       if (this.selected) {
          this.onSearch(this.selected.label);
-         this.expandedMenu = true;
       }
    }
 
@@ -212,7 +203,9 @@ export class StSelectComponent implements AfterViewInit, ControlValueAccessor, O
    }
 
    ngOnInit(): void {
-      this._searchInputSubscription = this.searchInput.valueChanges.subscribe(this.onSearch.bind(this));
+      if (this.search) {
+         this._searchInputSubscription = this.searchInput.valueChanges.subscribe(this.onSearch.bind(this));
+      }
    }
 
    ngOnDestroy(): void {
@@ -247,17 +240,9 @@ export class StSelectComponent implements AfterViewInit, ControlValueAccessor, O
       this._cd.markForCheck();
    }
 
-   @HostListener('document:click', ['$event'])
-   onClickOutside(event: Event): void {
-      const expandNewValue: boolean = this.expandedMenu && this.buttonElement.nativeElement.contains(event.target);
-      if (expandNewValue !== this.expandedMenu) {
-         this.expandedMenu = expandNewValue;
-         this.expand.emit(this.expandedMenu); // Notify expand change
-      }
-
-      if (this.search && !this.expandedMenu) {
-         this.searchInput.setValue(this.selected ? this.selected.label : '');
-      }
+   onClickOutside(): void {
+      this.expandedMenu = false;
+      this.expand.emit(this.expandedMenu); // Notify expand change
    }
 
    onChangeOption(option: StDropDownMenuItem): void {

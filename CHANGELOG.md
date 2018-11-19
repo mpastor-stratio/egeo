@@ -1,8 +1,70 @@
 # Changelog
 
-## 14.0.0 (upcoming)
+## 13.5.0 (upcoming)
 
 * Pending changelog
+
+## 13.4.0 (upcoming)
+
+**New features:**
+
+* st-tag-input: Allow to be configured to display an option list without typing anything 
+* st-tag-input: Allow to be configured to allow or avoid to type a free text
+* Replace deprecated dependency with ngx-virtual-scroller.
+* st-tag-input: Allow to force validations
+* st-two-list: Improve st-two-list to show spinner when scroll down in lists.
+* st-pagination: Emits new  event when user interacts with some of the elements in the selector of items displayed per page.
+
+## 13.3.0 (October 30, 2018)
+
+**New features:**
+
+* st-modal: Allow to add a cross button to close modal
+
+**Fixed bugs:**
+
+* st-two-list: fix bad behavior if user is searching something and click checkbox all (it must be select only filtered list)
+* st-select: When select is in a form, user still has to click two times to select an option
+* st-select: Close select when user clicks outside
+* st-file-button: Add id to input
+
+**Others:**
+
+* st-horizontal-tabs: Apply new design according to UX specifications
+
+
+## 13.2.2 (October 24, 2018)
+
+**Fixed bugs:**
+
+* st-two-list: fix bad behavior if user is searching something and click checkbox all (it must be select only filtered list)
+* st-select: When select is in a form, user still has to click two times to select an option
+* st-select: Close select when user clicks outside
+
+
+## 13.2.1 (October 17, 2018)
+
+**Others:**
+
+* st-tag-input: Remove array value as string from view
+
+
+## 13.2.0 (October 16, 2018)
+
+**Others:**
+
+* st-form: Add id to form fields
+
+**Fixed bugs:**
+
+* st-select: When select is in a form, user has to click two times to select an option
+
+
+## 13.1.1  (September 28, 2018)
+
+**Fixed bugs:**
+ * st-two-list: fix bad behavior with virtual scroll and checkbox all, when an item is added to selected list
+
 
 ## 13.1.0 (September 25, 2018)
 
@@ -17,6 +79,7 @@
 * st-footer: Apply new design according to UX specifications
 * st-two-list: Adds new styles. Change position of check all button on scroll bar.
 * st-select: Add the possibility to search and filter options
+
 
 ## 13.0.0 (September 06, 2018)
 

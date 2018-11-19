@@ -8,10 +8,16 @@
  *
  * SPDX-License-Identifier: Apache-2.0.
  */
-
+@import '../../theme/constants/colors';
+@import '../../theme/constants/fonts';
 
 .horizontal-tabs {
-   width: 590px;
+   width: 100%;
    display: block;
-   margin: 0 auto;
 }
+
+.demo {
+   display: block;
+   padding: 60px 0;
+}
+
