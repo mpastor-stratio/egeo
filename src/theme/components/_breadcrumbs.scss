@@ -11,12 +11,12 @@
 @import '../constants/colors';
 @import '../constants/fonts';
 
-.sth-breadcrumbs {
+.st-breadcrumbs {
    &__item {
-      font-family: $egeo-nunito-sans-semiBold;
+      font-weight: 600;
       color: $action-primary-default;
+      font-family: $egeo-nunito-sans;
       font-size: $egeo-font-size-xsmall;
-      text-transform: capitalize;
 
       &:after {
          font-family: $egeo-stratio-icons;
@@ -30,6 +30,10 @@
 
          &:hover {
             color: $action-primary-hover;
+         }
+
+         i + span {
+            margin-left: 5px;
          }
       }
 
@@ -45,12 +49,23 @@
       }
    }
 
-   &__item-container:first-child {
-      .sth-breadcrumbs__item--text {
+   st-breadcrumbs-item:first-child {
+      .st-breadcrumbs__item--text {
          padding-left: 0;
       }
    }
 
 }
 
+.st-breadcrumbs.title-mode {
+   .st-breadcrumbs__item,
+   .st-breadcrumbs__item--text {
+      font-size: $egeo-font-size-xlarge;
+      font-weight: bold;
+      color: $neutral-13;
+   }
+   .st-breadcrumbs__item:after {
+      font-size: $egeo-font-size-small;
+   }
+}
 

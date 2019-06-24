@@ -8,8 +8,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0.
  */
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
+import { Component, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, NgForm, FormControl } from '@angular/forms';
 import { StDropDownMenuItem } from '@stratio/egeo';
 
 @Component({
@@ -21,16 +21,24 @@ import { StDropDownMenuItem } from '@stratio/egeo';
 export class SelectDemoComponent {
    @ViewChild('templateDrivenForm') public templateDrivenForm: NgForm;
 
+   public configDoc: any = {
+      html: 'demo/st-select-demo/select-demo.html',
+      ts: 'demo/st-select-demo/select-demo.ts',
+      component: 'lib/st-select/st-select.ts'
+   };
+
    options: StDropDownMenuItem[] = [];
    model: any = {
       option1: null
    };
    reactiveForm: FormGroup; // our model driven form
-   reactiveErrorMessage: string | undefined = undefined;
 
    disabled: boolean = false;
 
+   formControl: FormControl = new FormControl('', [Validators.required]);
+
    constructor(private _fb: FormBuilder) {
+      this.formControl.markAsDirty();
       this.options.push({label: 'Select an option', value: undefined});
       for (let i: number = 0; i < 10; i++) {
          this.options.push({

@@ -14,11 +14,10 @@
 }
 
 .hover-menu {
-   width: 100%;
-   float: right;
    opacity: 0;
-   padding: 20px;
-   text-align: right;
+   vertical-align: top;
+   padding: 15px 20px;
+   position: relative;
 }
 
 .hover-menu--show {

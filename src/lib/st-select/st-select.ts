@@ -24,7 +24,7 @@ import {
    ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { has as _has, flatten as _flatten, cloneDeep as _cloneDeep } from 'lodash';
+import { cloneDeep as _cloneDeep, flatten as _flatten, has as _has } from 'lodash';
 import { Subscription } from 'rxjs';
 
 import { StCheckValidationsDirective } from './st-check-validations';
@@ -48,11 +48,15 @@ export class StSelectComponent implements AfterViewInit, ControlValueAccessor, O
    @Input() name: string = '';
    @Input() label: string = '';
    @Input() tooltip: string | null = null;
-   @Input() errorMessage: string | undefined = undefined;
+   @Input() errorMessage: string;
    @Input() selected: StDropDownMenuItem = undefined;
    @Input() default: any;
    @Input() itemsBeforeScroll: number = 8;
    @Input() search: boolean = false;
+   @Input() forceValidations: boolean = false;
+
+   @Input() placeholderSearch?: string = 'Search...';
+   @Input() keyBoardMove: boolean = false;
 
    @Output() expand: EventEmitter<boolean> = new EventEmitter<boolean>();
    @Output() select: EventEmitter<any> = new EventEmitter<any>();
@@ -61,21 +65,22 @@ export class StSelectComponent implements AfterViewInit, ControlValueAccessor, O
    @ViewChild('button') buttonElement: ElementRef;
 
    @HostBinding('class.st-select-opened')
-   expandedMenu: boolean = false;
-   searchInput: FormControl = new FormControl();
-   filteredOptions: StDropDownMenuItem[] | StDropDownMenuGroup[];
+
+   public expandedMenu: boolean = false;
+   public filteredOptions: StDropDownMenuItem[] | StDropDownMenuGroup[];
+   public searchInput: FormControl = new FormControl();
+   public inputFormControl: FormControl = new FormControl();
+
+   public showClear: boolean;
 
    onChange: (_: any) => void;
+   onTouched: () => void;
 
    private _inputHTMLElement: HTMLInputElement | undefined = undefined;
    private _isDisabled: boolean = false;
    private _options: StDropDownMenuItem[] | StDropDownMenuGroup[] = [];
-   private _touched: boolean = false;
    private _searchInputSubscription: Subscription;
 
-   onTouched(): void {
-      this._touched = true;
-   }
 
    constructor(private _selectElement: ElementRef,
                private _injector: Injector,
@@ -93,6 +98,7 @@ export class StSelectComponent implements AfterViewInit, ControlValueAccessor, O
    @Input()
    set disabled(value: boolean) {
       this._isDisabled = value;
+      this._cd.markForCheck();
    }
 
    get disabled(): boolean {
@@ -146,8 +152,8 @@ export class StSelectComponent implements AfterViewInit, ControlValueAccessor, O
       return this.label !== undefined && this.label !== null && this.label.length > 0;
    }
 
-   get hasError(): boolean {
-      return this.errorMessage !== undefined;
+   showError(): boolean {
+      return this.errorMessage && this.errorMessage.length && (this.inputFormControl.touched || this.forceValidations) && !this._isDisabled;
    }
 
    /*
@@ -155,8 +161,8 @@ export class StSelectComponent implements AfterViewInit, ControlValueAccessor, O
     */
 
    getOptions(): void {
-      if (this.selected) {
-         this.onSearch(this.selected.label);
+      if (this.searchInput.value) {
+         this.onSearch(this.searchInput.value);
       }
    }
 
@@ -165,6 +171,11 @@ export class StSelectComponent implements AfterViewInit, ControlValueAccessor, O
          option.label.toLocaleLowerCase().indexOf(value.toLocaleLowerCase()) > -1
       ) : this.options;
       this._cd.markForCheck();
+   }
+
+   onSearchClick(event: Event): void {
+      event.preventDefault();
+      event.stopPropagation();
    }
 
    // Set the function to be called when the control receives a change event.
@@ -204,7 +215,10 @@ export class StSelectComponent implements AfterViewInit, ControlValueAccessor, O
 
    ngOnInit(): void {
       if (this.search) {
-         this._searchInputSubscription = this.searchInput.valueChanges.subscribe(this.onSearch.bind(this));
+         this._searchInputSubscription = this.searchInput.valueChanges.subscribe((val) => {
+            this.onSearch(val);
+            this.showClear = (val && val.length > 0);
+         });
       }
    }
 
@@ -227,8 +241,12 @@ export class StSelectComponent implements AfterViewInit, ControlValueAccessor, O
       }
    }
 
+   clearInput(): void {
+      this.searchInput.setValue('');
+   }
+
    createResetButton(): boolean {
-      return this.default !== undefined && ((!this.selected && this._touched) || (this.selected && this.selected.value !== this.default));
+      return this.default !== undefined && ((!this.selected && this.inputFormControl.touched) || (this.selected && this.selected.value !== this.default));
    }
 
    resetToDefault(): void {
@@ -255,6 +273,10 @@ export class StSelectComponent implements AfterViewInit, ControlValueAccessor, O
          this.onTouched();
       }
       this.select.emit(value);
+
+      if (value || (option && option.hasOwnProperty('value') && !option.value)) {
+         this.onClickOutside();
+      }
       this._cd.markForCheck();
    }
 

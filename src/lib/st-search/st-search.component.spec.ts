@@ -8,15 +8,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0.
  */
-import { DebugElement, SimpleChanges, SimpleChange, ChangeDetectionStrategy } from '@angular/core';
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ChangeDetectionStrategy, DebugElement, SimpleChange, SimpleChanges } from '@angular/core';
+import { async, ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+
 import { StSearchComponent } from './st-search.component';
 import { StDropdownMenuModule } from '../st-dropdown-menu/st-dropdown-menu.module';
 import { StDropDownMenuItem } from '../st-dropdown-menu/st-dropdown-menu.interface';
 import { StSelectModule } from '../st-select/st-select.module';
 import { StInputModule } from '../st-input/st-input.module';
+import { StSearchEventOrigin } from './st-search.model';
+import { StSelectComponent } from '../st-select/st-select';
+import { StInputComponent } from '../st-input/st-input.component';
 
 // Component
 
@@ -32,11 +36,17 @@ describe('StSearchComponent', () => {
 
    beforeEach(async(() => {
       TestBed.configureTestingModule({
-         imports: [FormsModule, ReactiveFormsModule, StDropdownMenuModule, StSelectModule, StInputModule],
+         imports: [FormsModule, ReactiveFormsModule, StDropdownMenuModule, StSelectModule, StInputModule, StDropdownMenuModule],
          declarations: [StSearchComponent]
       })
       // remove this block when the issue #12313 of Angular is fixed
          .overrideComponent(StSearchComponent, {
+            set: { changeDetection: ChangeDetectionStrategy.Default }
+         })
+         .overrideComponent(StSelectComponent, {
+            set: { changeDetection: ChangeDetectionStrategy.Default }
+         })
+         .overrideComponent(StInputComponent, {
             set: { changeDetection: ChangeDetectionStrategy.Default }
          })
          .compileComponents();  // compile template and css
@@ -82,7 +92,7 @@ describe('StSearchComponent', () => {
       fixture.detectChanges();
 
       tick(11);
-      expect(component.search.emit).toHaveBeenCalledWith({text: result});
+      expect(component.search.emit).toHaveBeenCalledWith({ text: result, origin: StSearchEventOrigin.INPUT });
    }));
 
    it('should be able to search with the delay introduced as input', fakeAsync(() => {
@@ -99,7 +109,7 @@ describe('StSearchComponent', () => {
       tick(500);
       expect(component.search.emit).not.toHaveBeenCalled();
       tick(501);
-      expect(component.search.emit).toHaveBeenCalledWith({text: result});
+      expect(component.search.emit).toHaveBeenCalledWith({ text: result, origin: StSearchEventOrigin.INPUT });
    }));
 
    it('should be able to search with an updated delay', fakeAsync(() => {
@@ -116,7 +126,7 @@ describe('StSearchComponent', () => {
       tick(500);
       expect(component.search.emit).not.toHaveBeenCalled();
       tick(501);
-      expect(component.search.emit).toHaveBeenCalledWith({text: result});
+      expect(component.search.emit).toHaveBeenCalledWith({ text: result, origin: StSearchEventOrigin.INPUT });
 
       let changes: SimpleChanges = { debounce: new SimpleChange(1000, 250, true) };
       component.debounce = 250;
@@ -132,7 +142,7 @@ describe('StSearchComponent', () => {
       tick(200);
       expect(component.search.emit).not.toHaveBeenCalled();
       tick(55);
-      expect(component.search.emit).toHaveBeenCalledWith({text: result});
+      expect(component.search.emit).toHaveBeenCalledWith({ text: result, origin: StSearchEventOrigin.INPUT });
    }));
 
    it('should search when user types a text with the min length introduced as input', fakeAsync(() => {
@@ -154,7 +164,7 @@ describe('StSearchComponent', () => {
 
       tick(1);
       expect(component.search.emit).toHaveBeenCalled();
-      expect(component.search.emit).toHaveBeenCalledWith({text: 'test'});
+      expect(component.search.emit).toHaveBeenCalledWith({ text: 'test', origin: StSearchEventOrigin.INPUT });
    }));
 
    it('should search when user presses the enter key', () => {
@@ -171,7 +181,7 @@ describe('StSearchComponent', () => {
 
       expect(component.search.emit).toHaveBeenCalled();
       expect(component.search.emit).toHaveBeenCalledTimes(1);
-      expect(component.search.emit).toHaveBeenCalledWith({text: 'te'});
+      expect(component.search.emit).toHaveBeenCalledWith({ text: 'te', origin: StSearchEventOrigin.ENTER });
 
       input.nativeElement.value = 'test';
       input.nativeElement.dispatchEvent(new Event('input'));
@@ -188,14 +198,14 @@ describe('StSearchComponent', () => {
 
       expect(component.search.emit).toHaveBeenCalled();
       expect(component.search.emit).toHaveBeenCalledTimes(2);
-      expect(component.search.emit).toHaveBeenCalledWith({text: 'test'});
+      expect(component.search.emit).toHaveBeenCalledWith({ text: 'test', origin: StSearchEventOrigin.ENTER });
 
       input.triggerEventHandler('keypress', { which: 13 });
       fixture.detectChanges();
 
       expect(component.search.emit).toHaveBeenCalled();
       expect(component.search.emit).toHaveBeenCalledTimes(3);
-      expect(component.search.emit).toHaveBeenCalledWith({text: 'test'});
+      expect(component.search.emit).toHaveBeenCalledWith({ text: 'test', origin: StSearchEventOrigin.ENTER });
    });
 
    it('should be able to search twice', fakeAsync(() => {
@@ -209,7 +219,7 @@ describe('StSearchComponent', () => {
       tick(1);
       expect(component.search.emit).toHaveBeenCalled();
       expect(component.search.emit).toHaveBeenCalledTimes(1);
-      expect(component.search.emit).toHaveBeenCalledWith({text: 'te'});
+      expect(component.search.emit).toHaveBeenCalledWith({ text: 'te', origin: StSearchEventOrigin.INPUT });
 
       input.nativeElement.value = 'te';
       input.nativeElement.dispatchEvent(new Event('input'));
@@ -225,7 +235,7 @@ describe('StSearchComponent', () => {
       tick(1);
       expect(component.search.emit).toHaveBeenCalled();
       expect(component.search.emit).toHaveBeenCalledTimes(2);
-      expect(component.search.emit).toHaveBeenCalledWith({text: 'test'});
+      expect(component.search.emit).toHaveBeenCalledWith({ text: 'test', origin: StSearchEventOrigin.INPUT });
    }));
 
    it('should search when user presses the enter key without liveSearch', () => {
@@ -246,7 +256,7 @@ describe('StSearchComponent', () => {
       fixture.detectChanges();
 
       expect(component.search.emit).toHaveBeenCalled();
-      expect(component.search.emit).toHaveBeenCalledWith({text: 'test'});
+      expect(component.search.emit).toHaveBeenCalledWith({ text: 'test', origin: StSearchEventOrigin.ENTER });
    });
 
    it('should be able to clean the search text when user clicks on the cross button and event is emitted with an empty search', () => {
@@ -268,7 +278,7 @@ describe('StSearchComponent', () => {
       clearButton.nativeElement.dispatchEvent(new Event('mousedown'));
 
       expect(component.searchBox.value).toEqual('');
-      expect(component.search.emit).toHaveBeenCalledWith({text: ''});
+      expect(component.search.emit).toHaveBeenCalledWith({ text: '', origin: StSearchEventOrigin.INPUT });
    });
 
    it('should be able to change initial value of search', () => {
@@ -281,7 +291,7 @@ describe('StSearchComponent', () => {
       expect((<HTMLInputElement>input.nativeElement).value).toEqual('Initial value');
 
       let changes: SimpleChanges = {
-         value: new SimpleChange('Initial value',  'new value', true),
+         value: new SimpleChange('Initial value', 'new value', true),
          liveSearch: new SimpleChange(true, false, true)
       };
 
@@ -332,7 +342,7 @@ describe('StSearchComponent', () => {
       expect(component.isActive).toBeFalsy();
    });
 
-   it('should be able to search with autocomplete', () => {
+   it('should be able to search with autocomplete clicking on an option', () => {
       component.autocompleteList = [{ value: '1', label: '1' }, { value: '2', label: '2' }];
       component.withAutocomplete = true;
 
@@ -345,7 +355,7 @@ describe('StSearchComponent', () => {
       component.changeOption(component.autocompleteList[0]);
       expect(component.search.emit).toHaveBeenCalled();
       expect(component.search.emit).toHaveBeenCalledTimes(1);
-      expect(component.search.emit).toHaveBeenCalledWith({text: component.autocompleteList[0].label});
+      expect(component.search.emit).toHaveBeenCalledWith({ text: component.autocompleteList[0].value, origin: StSearchEventOrigin.LIST });
    });
 
    it('should be able to search with autocomplete', fakeAsync(() => {
@@ -359,7 +369,6 @@ describe('StSearchComponent', () => {
       expect(input).toBeDefined();
       expect(dropdownItems.length).toEqual(0);
 
-
       input.value = 'te';
       input.dispatchEvent(new Event('input'));
       fixture.detectChanges();
@@ -369,7 +378,6 @@ describe('StSearchComponent', () => {
       dropdownItems = fixture.debugElement.queryAll(By.css('st-dropdown-menu-item'));
       expect(dropdownItems.length).toEqual(2);
 
-
       input.value = '';
       input.dispatchEvent(new Event('input'));
       fixture.detectChanges();
@@ -377,6 +385,7 @@ describe('StSearchComponent', () => {
       fixture.detectChanges();
       dropdownItems = fixture.debugElement.queryAll(By.css('st-dropdown-menu-item'));
       expect(dropdownItems.length).toEqual(0);
+      flush();
    }));
 
    it('should be able to change autocomplete list', fakeAsync(() => {
@@ -412,6 +421,24 @@ describe('StSearchComponent', () => {
       fixture.detectChanges();
       dropdownItems = fixture.debugElement.queryAll(By.css('st-dropdown-menu-item'));
       expect(dropdownItems.length).toEqual(finalList.length);
+      flush();
+   }));
+
+   it('should be able to open autocomplete list when user clicks on input', fakeAsync(() => {
+      component.autocompleteList =  [{ value: '1', label: '1' }, { value: '2', label: '2' }];
+      component.withAutocomplete = true;
+      fixture.detectChanges();
+
+      const input: HTMLInputElement = fixture.debugElement.query(By.css('.st-search-input')).nativeElement;
+
+      input.value = 'te';
+      input.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+      tick(1);
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector('.st-dropdown-menu.active')).not.toBeNull();
+      flush();
    }));
 
    describe('Should be able to allow a filtered search', () => {
@@ -453,7 +480,30 @@ describe('StSearchComponent', () => {
 
          fixture.nativeElement.querySelectorAll('.st-dropdown-menu-item')[1].click();
 
-         expect(component.search.emit).toHaveBeenCalledWith({text: '', filter: component.filterOptions[1].value});
+         expect(component.search.emit).toHaveBeenCalledWith({ text: '', filter: component.filterOptions[1].value, origin: StSearchEventOrigin.FILTER });
+      });
+   });
+
+   describe ('should be able to hide or show the loupe icon to the right of the search box', () => {
+
+      it ('by default, it is shown', () => {
+         fixture.detectChanges();
+
+         expect(fixture.nativeElement.querySelector('.st-search-icon.icon-search')).not.toBeNull();
+      });
+
+      it ('if showIcon is true, it is shown', () => {
+         component.showIcon = true;
+         fixture.detectChanges();
+
+         expect(fixture.nativeElement.querySelector('.st-search-icon.icon-search')).not.toBeNull();
+      });
+
+      it ('if showIcon is true, it is shown', () => {
+         component.showIcon = false;
+         fixture.detectChanges();
+
+         expect(fixture.nativeElement.querySelector('.st-search-icon.icon-search')).toBeNull();
       });
    });
 });

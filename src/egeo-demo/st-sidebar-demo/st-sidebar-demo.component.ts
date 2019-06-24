@@ -18,6 +18,11 @@ import { StSidebarItem, StSidebarVisualMode } from '@stratio/egeo';
 })
 
 export class StSidebarDemoComponent {
+   public configDoc: any = {
+      html: 'demo/st-sidebar-demo/st-sidebar-demo.component.html',
+      ts: 'demo/st-sidebar-demo/st-sidebar-demo.component.ts',
+      component: 'lib/st-sidebar/st-sidebar.component.ts'
+   };
    public items: StSidebarItem[] = [
       { id: 'vault-roles', label: 'Vault Roles' },
       { id: 'identities', label: 'Identities', class: 'warning', disabled: true },
@@ -30,7 +35,7 @@ export class StSidebarDemoComponent {
             label: 'Subitem 1',
             items: [
                { id: 'sub-item1.1', label: 'Subitem 1.1', result: '450' },
-               { id: 'sub-item1.2', label: 'Subitem 1.2' }]
+               { id: 'sub-item1.2', label: 'Subitem 1.2222222222222222222222222222222222222222222222222222222' }]
          }, { id: 'sub-item2', label: 'Subitem 2' }]
       },
       {
@@ -68,18 +73,18 @@ export class StSidebarDemoComponent {
          items: [
             { id: 'sub-sectionD.1', label: 'Subitem 1.1' },
             { id: 'sub-sectionD.2', label: 'Subitem 1.2' }]
-      },
+      }
    ];
 
    public activeItem: StSidebarItem;
    public enableSearchMode: boolean = false;
    public complexMode: StSidebarVisualMode = StSidebarVisualMode.complex;
 
-   onChangeActive(item: StSidebarItem) {
+   onChangeActive(item: StSidebarItem): void {
       this.activeItem = item;
    }
 
    constructor() {
-      this.activeItem = this.items[2].items[0].items[1]
+      this.activeItem = this.items[2].items[0].items[1];
    }
 }

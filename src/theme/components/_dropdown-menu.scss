@@ -13,13 +13,13 @@
 
  %select-dropdown-menu-title {
     color: $neutral-08;
-    font-family: $egeo-nunito-sans-bold;
+    font-weight: bold;
     font-size: $egeo-font-size-xxsmall;
     line-height: $egeo-line-height-xxxsmall;
  }
  %select-dropdown-menu-default {
     color: $action-secondary-07;
-    font-family: $egeo-nunito-sans;
+    font-weight: 400;
     font-size: $egeo-font-size-xsmall;
     line-height: $egeo-line-height-xsmall;
  }
@@ -35,6 +35,9 @@
     ul {
        list-style: none;
        overflow-y: auto;
+       &:focus {
+          outline: none;
+       }
     }
 
     h3 span {
@@ -51,8 +54,9 @@
     .st-dropdown-menu-item {
        padding: 9px 15px;
        color: $action-secondary-07;
-       font-family: $egeo-nunito-sans;
+       font-weight: 400;
        font-size: $egeo-font-size-xsmall;
+       font-family: $egeo-nunito-sans;
        line-height: $egeo-line-height-xsmall;
        cursor: pointer;
        display: flex;
@@ -61,8 +65,9 @@
           outline: none;
        }
 
-       &:hover {
-          background-color: $action-primary-light;
+       &:hover, &:focus {
+          background-color: $action-secondary-01;
+          outline: none;
        }
 
        &.selected {
@@ -80,6 +85,14 @@
           white-space: nowrap;
        }
     }
+
+    .st-dropdown-menu-without-results {
+       padding: 20px;
+       font-family: $egeo-nunito-sans;
+       font-size: $egeo-font-size-xxsmall;
+       font-weight: 300;
+       color: $neutral-09;
+    }
  }
 
  .st-dropdown-menu.menu-list {
@@ -94,6 +107,7 @@
       padding: 10px 30px;
       font-size: $egeo-font-size-small;
       line-height: $egeo-line-height-small;
+      font-family: $egeo-nunito-sans;
       color: $neutral-11;
 
       &:hover {

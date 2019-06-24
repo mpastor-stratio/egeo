@@ -50,15 +50,24 @@ export { StAlertsService } from './st-alerts/st-alerts.service';
 
 // Breadcrumb
 export {
-   StBreadCrumbItem
+   StBreadCrumbItem,
+   StBreadCrumbMode
 } from './st-breadcrumbs/st-breadcrumbs.interface';
 export { StBreadcrumbsModule } from './st-breadcrumbs/st-breadcrumbs.module';
 
 // Bubble
 export { StBubbleModule } from './st-bubble/st-bubble.module';
 
+// Color picker
+export { StColorPickerModule } from './st-color-picker/st-color-picker.module';
+
 // Checkbox
 export { StCheckboxModule } from './st-checkbox/st-checkbox.module';
+
+// Docs
+export {
+   StDocsModule
+} from './st-docs/st-docs.module';
 
 // Draggable car
 export {
@@ -74,6 +83,9 @@ export {
    StDropDownMenuItemSchema
 } from './st-dropdown-menu/st-dropdown-menu.interface';
 export { StDropdownMenuModule } from './st-dropdown-menu/st-dropdown-menu.module';
+
+// Filter selector
+export { StFilterSelectorModule } from './st-filter-selector/st-filter-selector.module';
 
 // File button
 export { StFileButtonModule } from './st-file-button/st-file-button.module';
@@ -95,13 +107,14 @@ export {
 } from './st-header/st-header.model';
 export { StHeaderModule } from './st-header/st-header.module';
 
-// Help
-export { StHelpModule } from './st-help/st-help.module';
-
 // Dynamic form
 export { StFormModule } from './st-form/st-form.module';
 export { StFormFieldModule } from './st-form/st-form-field/st-form-field.module';
 export { StFormListModule } from './st-form-list/st-form-list.module';
+
+// Foreground notifications
+
+export {StNotificationElement} from './st-foreground-notifications/st-foreground-notifications.model';
 
 // Fullscreen layout
 export { StFullscreenLayoutModule } from './st-fullscreen-layout/st-fullscreen-layout.module';
@@ -111,15 +124,13 @@ export {
    StHorizontalTabsModule
 } from './st-horizontal-tabs/st-horizontal-tabs.module';
 export {
+   StHorizontalTabStatus,
    StHorizontalTab,
    StHorizontalTabSchema
 } from './st-horizontal-tabs/st-horizontal-tabs.model';
 
 // Info box
 export { StInfoBoxModule } from './st-info-box/st-info-box.module';
-
-// Info card
-export { StInfoCardModule } from './st-info-card/st-info-card.module';
 
 // Input
 export { StInputModule } from './st-input/st-input.module';
@@ -157,6 +168,12 @@ export {
 export { StModalService } from './st-modal/st-modal.service';
 export { StModalModule } from './st-modal/st-modal.module';
 
+// Modal2
+
+export {
+   StModal2Module
+} from './st-modal2/st-modal2.module';
+
 // Page Title
 export { StPageTitleModule } from './st-page-title/st-page-title.module';
 
@@ -173,6 +190,11 @@ export { StPaginationModule } from './st-pagination/st-pagination.module';
 
 // Pop Over
 export { StPopOverModule } from './st-pop-over/st-pop-over.module';
+
+// Prism
+export {
+   StPrismModule
+} from './st-docs/st-prism/st-prism.module';
 
 // Progress bar
 
@@ -191,6 +213,10 @@ export {
 
 // Search
 export { StSearchModule } from './st-search/st-search.module';
+export {
+   StSearchEvent,
+   StSearchEventOrigin
+} from './st-search/st-search.model';
 
 // Select
 export { StSelectModule } from './st-select/st-select.module';
@@ -205,10 +231,6 @@ export { StSpinnerModule } from './st-spinner/st-spinner.module';
 
 // Switch
 export { StSwitchModule } from './st-switch/st-switch.module';
-
-// Tab box
-export { StTab, StTabSchema } from './st-tab-box/st-tab-box.interface';
-export { StTabBoxModule } from './st-tab-box/st-tab-box.module';
 
 // Table
 export { StTableModule } from './st-table/st-table.module';
@@ -225,9 +247,6 @@ export {
 } from './st-textarea/st-textarea.error.model';
 export { StTextareaModule } from './st-textarea/st-textarea.module';
 
-// Tip
-export { StTipModule } from './st-tip/st-tip.module';
-
 // Toogle buttons
 export {
    StToggleButton,
@@ -239,10 +258,6 @@ export {
 
 // Tooltip
 export { StTooltipModule } from './st-tooltip/st-tooltip.module';
-
-// Tree
-export { StTreeModule } from './st-tree/st-tree.module';
-export { StTreeNode, StTreeEvent } from './st-tree/st-tree.model';
 
 // Two list selection
 export {
@@ -264,6 +279,9 @@ export { StVerticalTabsModule } from './st-vertical-tabs/st-vertical-tabs.module
 
 // Widget
 export { StWidgetModule } from './st-widget/st-widget.module';
+
+// Zero page
+export { StZeroPageModule } from './st-zero-page/st-zero-page.module';
 
 
 export { StPopModule } from './st-pop/st-pop.module';

@@ -10,16 +10,19 @@
  */
 
 $egeo-fontface-src: '/assets/fonts';
+
 @import '../theme/constants/index';
 
 @import '../theme/vendors/sanitize';
 @import '../theme/grid/grid';
 @import '../theme/theme';
+@import '~prismjs/themes/prism.css';
 
 body {
    color: $neutral-08;
-   font-family: $egeo-nunito-sans;
+   font-weight: 400;
    font-size: 16px;
+   font-family: $egeo-nunito-sans;
    overflow-y: hidden;
 }
 
@@ -35,7 +38,6 @@ main {
    border-color: $brand;
    color: $action-secondary-07;
    display: inline-block;
-   font-family: $egeo-nunito-sans;
    font-size: $egeo-font-size-xxlarge;
    font-weight: normal;
    margin: 0 0 25px;
@@ -52,19 +54,17 @@ main {
 
 .changelog {
    h2 {
-      font-family: $egeo-nunito-sans-extraBold;
-      font-weight: 100;
+      font-weight: 900;
       font-size: $egeo-font-size-xlarge;
       line-height: 44px;
    }
 
    p {
-      font-family: $egeo-nunito-sans-light;
+      font-weight: 100;
       line-height: 28px;
 
       strong {
-         font-family: $egeo-nunito-sans-semiBold;
-         font-weight: 100;
+         font-weight: 600;
          line-height: 34px;
       }
    }
@@ -84,14 +84,26 @@ main {
    margin-left: 350px;
    margin-top: 20px;
    margin-bottom: 100px;
+
+   .container-fnotification {
+      .sth-header {
+         position: static;
+      }
+   }
+
+   st-prism-highlight {
+      pre {
+         margin: 0px;
+         background-color: $neutral-00;
+      }
+   }
 }
 
 .demo-layout {
 
    .introduction {
-      font-family: $egeo-nunito-sans;
+      font-weight: normal;
       font-size: 25px;
-      font-weight: 300;
       font-style: normal;
       font-stretch: normal;
       line-height: $egeo-line-height-xxxlarge;
@@ -101,7 +113,7 @@ main {
    }
 
    .title {
-      font-family: $egeo-nunito-sans-bold;
+      font-weight: bold;
       font-size: $egeo-font-size-xlarge;
       font-style: normal;
       font-stretch: normal;
@@ -113,7 +125,7 @@ main {
    }
 
    .subtitle {
-      font-family: $egeo-nunito-sans;
+      font-weight: 400;
       font-size: $egeo-font-size-large;
       font-style: normal;
       font-stretch: normal;
@@ -125,9 +137,8 @@ main {
    }
 
    .paragraph {
-      font-family: $egeo-nunito-sans;
+      font-weight: normal;
       font-size: $egeo-font-size-medium;
-      font-weight: 300;
       font-style: normal;
       font-stretch: normal;
       line-height: $egeo-line-height-medium;
@@ -145,7 +156,7 @@ main {
    }
 
    .list {
-      font-family: $egeo-nunito-sans;
+      font-weight: 400;
       font-size: $egeo-font-size-small;
       line-height: $egeo-line-height-large;
       color: $neutral-11;

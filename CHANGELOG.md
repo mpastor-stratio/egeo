@@ -1,10 +1,148 @@
 # Changelog
 
-## 13.5.0 (upcoming)
+## 16.5.0 (upcoming)
 
-* Pending changelog
+**New features:**
 
-## 13.4.0 (upcoming)
+* st-color-picker: Create component
+
+**Fixed bugs:**
+
+* st-table: Fixed error with selectableAll and sortable columns
+
+## 16.4.0 (June 10, 2019)
+
+**New features:**
+
+* st-horizontal-tabs: Allow to insert content from outside after tabs
+* st-filter-selector: Allow to display menu aligned to the right
+* st-toggle-buttons: New styles
+
+**Fixed bugs:**
+
+* st-tag-input: Input shows error when user create a tag and click out
+
+**Others:**
+
+* Fix method calls from templates
+* Update icon font
+
+## 16.3.0 (May 08, 2019)
+
+**New features:**
+
+* st-zero-page: Create component
+* st-modal2: New modal component
+
+**Fixed bugs:**
+
+* st-table: Border disappears when user puts the mouse over the row
+
+**Others:**
+
+* Update icon font
+* st-table: Align cell content to the top when texts are so long
+* Remove st-info-box from demo.
+* Removed st-tree, st-tip, st-tab-box, st-info-card, st-help components
+
+
+## 16.2.0 (April 12, 2019)
+
+**New features:**
+
+* st-filter-selector: Do not change the arrow icon when menu is open
+
+**Fixed bugs:**
+
+* st-select: Fix error message format
+* st-table: Put pointer cursor to clickable cell´s children and not to entire cell
+* st-breadcrumbs: Do not display capitalized text
+
+**Others:**
+
+* Upgrade lodash to 4.17.11
+
+
+## 16.1.0 (April 05, 2019)
+
+**New features:**
+
+* st-dropdown-menu: Allow user to move through options using the keyboard arrows 
+* st-select: new design for the search of elements
+* st-search: Allow to hide or show loupe icon
+
+**Others:**
+
+* Update icon font
+
+
+## 16.0.0 (March 18, 2019)
+
+**New features:**
+
+* st-search: Allow to differentiate search events by its origin
+* st-dropdown-menu: Allow to display texts with HTML tags 
+
+**Fixed bugs:**
+
+* st-breadcrumb, st-modal: Fix style bug when a long text displays displaced section
+* st-two-list: Searcher disappears when user is typing and introduces a text without results
+* st-search: Display autocomplete list when user clicks on input after leaving it
+* st-search: Display empty message when autocomplete list does not have any item
+
+**Breaking changes:**
+
+* theme: Nunito sans font refactor.
+* st-search: When user selects an option from the autocomplete list, input is updated with the value of the selected option
+
+
+## 15.0.2 (January 16, 2019)
+
+**Fixed bugs:**
+
+* st-table: Remove transition for all attributes in order to prevent a wrong behaviour
+
+
+## 15.0.1 (January 14, 2019)
+
+**New features:**
+
+* st-filter-selector: Create component
+* st-table: Allow to display tables with white and default themes
+* st-horizontal-tabs: Allow to add classes to tabs according to its status
+
+**Breaking changes:**
+
+* st-table: Checkbox 'Select all' is added to the first header field inside of taking a separated cell
+
+**Fixed bugs:**
+
+* st-sidebar: Fix minor style bug
+
+**Others:**
+
+* Web:  Show the examples source code in Egeo Web
+
+* Because of technical problems, the 15.0.0 release could not be correctly released. Therefore, version 15.0.1 is the first available 15.0.x version.
+
+
+## 14.0.0 (December 19, 2018)
+
+**New features:**
+
+* st-breadcrumbs: Allow to configure visualization mode as "default" or "title"
+
+**Breaking changes:**
+
+* st-foreground-notifications: allow to control multiple notifications
+* st-fullscreen-layout: Allow to customize title
+
+**Fixed bugs:**
+
+* st-select: Disable html native autocomplete
+* st-foreground-notifications: must admit an empty list. Fix error when inserting a notification after it has been previously closed
+
+## 13.4.0 (November 19, 2018)
 
 **New features:**
 
@@ -14,6 +152,10 @@
 * st-tag-input: Allow to force validations
 * st-two-list: Improve st-two-list to show spinner when scroll down in lists.
 * st-pagination: Emits new  event when user interacts with some of the elements in the selector of items displayed per page.
+
+**Fixed bugs:**
+
+* st-text-area: fix error style
 
 ## 13.3.0 (October 30, 2018)
 
@@ -117,7 +259,7 @@
 
 **Breaking changes:**
 
-* st-bread-crumb: Changed options from string to object with label and icon to allow icons
+* st-breadcrumb: Changed options from string to object with label and icon to allow icons
 * st-two-list: Includes checkbox all button in list-scroll component. Emits new event with number of elements selected.
 
 **Others**

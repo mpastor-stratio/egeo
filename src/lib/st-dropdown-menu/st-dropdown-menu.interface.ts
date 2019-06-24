@@ -10,11 +10,14 @@
  */
 import { TranslateableElement } from '../utils/egeo-resolver/egeo-resolve-model';
 
+export enum ARROW_KEY_CODE {ARROW_UP = 38, ARROW_DOWN = 40}
 export class StDropDownMenuItem {
    label: string;
    value: any;
    icon?: string;
    selected?: boolean;
+   hasHtml?: boolean;
+
    [key: string]: any; // To do model more extensible if any other component needs to send more data
 }
 

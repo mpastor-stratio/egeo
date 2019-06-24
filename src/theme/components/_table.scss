@@ -11,53 +11,75 @@
 @import '../constants/fonts';
 @import '../constants/colors';
 
-.st-table__header {
-   background-color: $neutral-03;
-   height: 50px;
-}
+.st-table{
+   &__header {
+      font-family: $egeo-nunito-sans;
+      background-color: $neutral-03;
+      height: 50px;
+   }
 
-.st-table__header-text {
-   font-family: $egeo-nunito-sans-bold;
-   font-size: $egeo-font-size-xxsmall;
-   line-height: $egeo-line-height-xxsmall;
-   text-align: left;
-   color: $neutral-10;
-   padding: 0 20px;
-}
+   &__checkbox {
+      position: absolute;
+      left: 10px;
+      height: 20px;
+      z-index: 1;
+   }
 
-.st-table__header-item--selected {
-    & > .st-table__header-text {
-      color: $neutral-13;
-       & .st-table__order-arrow {
-          color: $neutral-13;
-       }
-    }
-}
+   &__header-text {
+      font-weight: bold;
+      font-size: $egeo-font-size-xxsmall;
+      line-height: $egeo-line-height-xxsmall;
+      text-align: left;
+      color: $neutral-10;
+      padding: 0 35px;
+   }
 
-.st-table__order-arrow {
-   font-family: $egeo-nunito-sans-bold;
-   font-size: $egeo-font-size-xxxsmall;
-   line-height: $egeo-line-height-xxxsmall;
-   color: $neutral-10;
+   &__header-item {
+      .st-table__checkbox {
+         top: 12px;
+      }
+      &--selected {
+         & > .st-table__header-text {
+            color: $neutral-13;
+            & .st-table__order-arrow {
+               color: $neutral-13;
+            }
+         }
+      }
+   }
+
+
+   &__order-arrow {
+      font-weight: bold;
+      font-size: $egeo-font-size-xxxsmall;
+      line-height: $egeo-line-height-xxxsmall;
+      color: $neutral-10;
+   }
 }
 
 // row theme
 .st-table-row {
+   font-weight: 400;
    font-family: $egeo-nunito-sans;
    font-size: $egeo-font-size-xsmall;
-   line-height: $egeo-line-height-xsmall;
+   line-height: $egeo-line-height-xxlarge;
    text-align: left;
-   color: $neutral-11;
-}
+   vertical-align: top;
+   color: $neutral-13;
+   box-shadow: inset 0 -1px 0 0 $neutral-04;
+   transition: background-color ease-in-out 0.3s;
 
-.st-table-row.selected {
-   font-family: $egeo-nunito-sans-semiBold;
+   &:hover {
+      td.clickable > * {
+         cursor: pointer;
+         color: $action-primary-default;
+      }
+   }
 }
 
 .st-table-row.selected,
 .st-table-row:hover {
    background-color: rgba(18, 139, 221, 0.05);
-   color: $action-secondary-07;
 }
 
 .st-table--fixed-header tbody {
@@ -82,4 +104,12 @@
 .st-table.separated-rows {
    border-spacing: 0 6px;
    border-collapse: separate;
+}
+
+.st-table.white {
+   .st-table__header {
+      border-top: 1px solid $neutral-06;
+      border-bottom: 1px solid $neutral-06;
+      background-color: transparent;
+   }
 }

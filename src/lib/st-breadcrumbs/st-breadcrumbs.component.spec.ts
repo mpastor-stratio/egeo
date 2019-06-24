@@ -8,12 +8,11 @@
  *
  * SPDX-License-Identifier: Apache-2.0.
  */
-import { SimpleChange } from '@angular/core';
+import { ChangeDetectionStrategy, NO_ERRORS_SCHEMA, SimpleChange } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { StBreadCrumbsComponent } from './st-breadcrumbs.component';
-import { StBreadCrumbItem } from './st-breadcrumbs.interface';
+import { StBreadCrumbItem, StBreadCrumbMode } from './st-breadcrumbs.interface';
 
 const item: StBreadCrumbItem = {
    id: 'home',
@@ -29,7 +28,7 @@ describe('StBreadCrumbsComponent', () => {
       { id: 'home', icon: 'icon-home' },
       { id: 'section1', label: 'section1', icon: '' },
       { id: 'section2', label: 'section2', icon: '' },
-      { id: 'section3', label: 'section3'},
+      { id: 'section3', label: 'section3' },
       { id: 'section4', label: 'section4', icon: 'icon-home' },
       { id: 'section5', label: 'section5', icon: '' },
       { id: 'section6', label: 'section6', icon: '' }];
@@ -41,7 +40,11 @@ describe('StBreadCrumbsComponent', () => {
          TestBed.configureTestingModule({
             declarations: [StBreadCrumbsComponent],
             schemas: [NO_ERRORS_SCHEMA]
-         }).compileComponents(); // compile template and css
+         })
+            .overrideComponent(StBreadCrumbsComponent, {
+               set: { changeDetection: ChangeDetectionStrategy.Default }
+            })
+            .compileComponents(); // compile template and css
       })
    );
 
@@ -62,10 +65,9 @@ describe('StBreadCrumbsComponent', () => {
       });
 
       it('should be initialized undefined', () => {
-         const itemUndefined: StBreadCrumbItem = {id: ''};
+         const itemUndefined: StBreadCrumbItem = { id: '' };
          component.options[1] = itemUndefined;
          fixture.detectChanges();
-         expect(component.hasLabel(1)).toBeFalsy();
          expect(component.hasIcon(1)).toBeFalsy();
          expect(component.getId(1)).toEqual('');
          expect(component.getIcon(1)).toBeUndefined();
@@ -74,7 +76,6 @@ describe('StBreadCrumbsComponent', () => {
       it('should be initialized with id, label and icon', () => {
          component.options[1] = item;
          fixture.detectChanges();
-         expect(component.hasLabel(1)).toBeTruthy();
          expect(component.hasIcon(1)).toBeTruthy();
          expect(component.getId(1)).toEqual('home');
          expect(component.getIcon(1)).toEqual('icon-home');
@@ -118,21 +119,17 @@ describe('StBreadCrumbsComponent', () => {
       fixture.detectChanges();
       expect(component.getId(3)).toEqual(menuMock[3].id);
    });
+
    it('Should get label when index is greater than -1', () => {
       fixture.detectChanges();
       expect(component.getLabel(3)).toEqual(String(menuMock[3].label));
-   });
-
-   it(`should not show anything if not have label`, () => {
-      let label = component.getLabel(0);
-      fixture.detectChanges();
-      expect(component.hasLabel(0)).toBeFalsy();
    });
 
    it('Should get icon when index is greater than -1', () => {
       fixture.detectChanges();
       expect(component.getIcon(4)).toEqual(String(menuMock[4].icon));
    });
+
    it('Should get 3 dots when index is -1', () => {
       fixture.detectChanges();
       expect(component.getLabel(-1)).toEqual('...');
@@ -160,8 +157,28 @@ describe('StBreadCrumbsComponent', () => {
 
       expect(component.indexArray).toEqual([0, 1, 2, 3, 4, 5, 6]);
 
-      component.options = [...menuMock, {id: 'section7', label: 'section7'}];
-      component.ngOnChanges({ options: new SimpleChange(menuMock, component.options, true)});
+      component.options = [...menuMock, { id: 'section7', label: 'section7' }];
+      component.ngOnChanges({ options: new SimpleChange(menuMock, component.options, true) });
       expect(component.indexArray).toEqual([0, -1, 2, 3, 4, 5, 6, 7]);
+   });
+
+   describe('Mode can be configured in order to modify its design', () => {
+      it('If mode is not introduced as input, it will be DEFAULT', () => {
+         fixture.detectChanges();
+
+         expect(fixture.nativeElement.querySelector('ul').classList).toContain('default-mode');
+      });
+
+      it('If mode is introduced as input, it will be added as class to the host', () => {
+         component.mode = StBreadCrumbMode.TITLE;
+         fixture.detectChanges();
+
+         expect(fixture.nativeElement.querySelector('ul').classList).toContain('title-mode');
+
+         component.mode = StBreadCrumbMode.DEFAULT;
+         fixture.detectChanges();
+
+         expect(fixture.nativeElement.querySelector('ul').classList).toContain('default-mode');
+      });
    });
 });

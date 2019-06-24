@@ -23,9 +23,10 @@
       background-color: $neutral-00;
       z-index: $fullscreen-z-index + 1;
 
-      .title {
+      .st-fullscreen-layout-title {
          text-align: left;
-         font-family: $egeo-nunito-sans-extraBold;
+         font-weight: 900;
+         font-family: $egeo-nunito-sans;
          font-size: $egeo-font-size-medium;
          line-height: $egeo-line-height-medium;
          color: $neutral-13;

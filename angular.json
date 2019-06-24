@@ -46,7 +46,9 @@
             "styles": [
               "src/demo-app/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+               "node_modules/prismjs/prism.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -68,6 +70,16 @@
             }
           }
         },
+         "test": {
+            "builder": "@angular-devkit/build-angular:karma",
+            "options": {
+               "main": "test/base.spec.ts",
+               "karmaConfig": "test/karma.conf.js",
+               "tsConfig": "src/demo-app/tsconfig-aot.json",
+               "polyfills": "src/demo-app/polyfills.ts",
+               "scripts": []
+            }
+         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
